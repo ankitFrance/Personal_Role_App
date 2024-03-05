@@ -1,0 +1,3 @@
+http://localhost:3080/
+
+npm run dev  -- command to run the application

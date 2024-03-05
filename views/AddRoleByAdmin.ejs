@@ -1,0 +1,229 @@
+<%- include('./layouts/header') %>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="textInput" style="font-weight: bold;">Enter New Role:</label>
+                <input type="text" class="form-control" id="addtxt" >
+
+                <label for="exampleFormControlTextarea1" style="font-weight: bold;">Enter Role Description </label>
+                <textarea class="form-control" id="adddesc" rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" id = "addbtn" >Submit</button>
+        </div>
+    </div>
+    
+    <hr>
+   
+     <div id = "roles" class="row container-fluid">
+     <!--cards  will be appended here -->
+     
+
+     
+     </div>
+
+
+
+</div>
+
+<!-- Bootstarap modal for conrimation message to delete role -->
+<div id="confirmationModal" class="modal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #084772;  color: white;">
+                <h5 class="modal-title" >Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="background-color: #084772;  color: white;">
+                Are you sure you want to delete the role '<span id="roleTitle"></span>'?
+            </div>
+            <div class="modal-footer" style="background-color: #084772;  color: white;">
+                <button type="button" class="btn btn-primary" id="confirmDelete">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelDelete">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstarap modal for conrimation message to delete role -->
+
+
+<script>
+
+
+showRoles();
+// if the user add a role , add it to localstorage 
+let addbtn = document.getElementById('addbtn')
+addbtn.addEventListener("click", function(e){
+
+    let addtxt = document.getElementById("addtxt")
+    let adddesc = document.getElementById("adddesc")
+    let roles = localStorage.getItem("roles");
+    if (roles==null){
+        rolesObj = []
+    }
+    else {
+        rolesObj = JSON.parse(roles)
+    }
+    rolesObj.push({
+        roletitle: addtxt.value,
+        description: adddesc.value
+    });
+    localStorage.setItem("roles", JSON.stringify(rolesObj))  // updation of localstorage 
+    addtxt.value = "";
+    adddesc.value = "";
+    showRoles();
+})
+
+function showRoles(){
+    let roles = localStorage.getItem("roles");
+    if (roles==null){
+        rolesObj = []
+    }
+    else {
+        rolesObj = JSON.parse(roles)
+    }
+    let html = "";
+    rolesObj.forEach(function(element,index){
+        html+=`
+        <div class="noteCard card my-3 mx-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"> ${element.roletitle}</h5>
+                    <p class="card-text">${element.description}</p>
+                 
+                    <button id="${index}"onclick="deleteRole(this.id)" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+           `;
+    });
+    let rolesElm=document.getElementById("roles");
+    if (rolesObj.length!=0){
+        rolesElm.innerHTML=html;
+    }
+    else{
+        rolesElm.innerHTML="Nothing to show"
+    }
+}
+
+
+
+
+
+
+
+function deleteRole(index) {
+    
+  // ********* START just accessing role given property from database **********
+   var allUsersData = JSON.parse('<%- JSON.stringify(Allusers) %>');
+   var RolegivenArray = [];
+   allUsersData.forEach(element => {
+   RolegivenArray.push(element.roleGiven);
+  
+});
+   console.log(RolegivenArray)  // it will show all rolesGigven in an array 
+// ********* END just accessing role given property from database **********
+
+    console.log('I am deleting', index);
+    
+    let roles = localStorage.getItem("roles");
+    let rolesObj;
+
+    if (roles == null) {
+        rolesObj = [];
+    } else {
+        rolesObj = JSON.parse(roles);
+    }
+
+    // Extract the role to be deleted
+    let roleToDelete = rolesObj[index];
+
+    // Create Bootstrap modal for confirmation
+    let confirmationModal = document.getElementById('confirmationModal');
+    confirmationModal.style.display = 'block';
+  
+    // Update modal content with role information
+    document.getElementById('roleTitle').textContent = roleToDelete.roletitle;
+
+    //*****************************************************************
+    
+    let foundMatch = false;
+    RolegivenArray.forEach(elem => {
+    if (roleToDelete.roletitle === elem) {
+        foundMatch = true;
+    }
+   });
+
+   if (foundMatch) {
+
+    document.getElementById('confirmationModal').querySelector('.modal-body').textContent = 'This role has been assigned to someone, are you sure to delete? ';
+    document.getElementById('confirmationModal').querySelector('.modal-header').style.backgroundColor = '#9B0000';
+    document.getElementById('confirmationModal').querySelector('.modal-body').style.backgroundColor = '#9B0000';
+    document.getElementById('confirmationModal').querySelector('.modal-footer').style.backgroundColor = '#9B0000';
+
+   } else {
+
+    confirmationModal.style.backgroundColor = ''; // Reset background color
+
+   }
+   
+    //*****************************************************************
+
+    // Add event listener to the modal confirm button
+    document.getElementById('confirmDelete').addEventListener('click', function () {
+        confirmationModal.style.display = 'none';
+
+        let deletedElement = rolesObj.splice(index, 1)[0];
+        localStorage.setItem("roles", JSON.stringify(rolesObj));
+
+        var xhr = new XMLHttpRequest();
+
+        // Configure it to send a POST request to the server
+        xhr.open('POST', '/admin/UpadateDBafterDeletion', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        // Define the data to be sent in the request body
+        var data = JSON.stringify({ deletedRoleTitle: deletedElement.roletitle });
+
+        // Set up a callback function to handle the response
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Request was successful
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+                showRoles();
+            } else {
+                // Request failed
+                console.error('Error:', xhr.statusText);
+            }
+        };
+
+        // Send the request with the data
+        xhr.send(data);
+        location.reload()
+    });
+
+    // Add event listener to the modal cancel button
+    document.getElementById('cancelDelete').addEventListener('click', function () {
+        console.log('Deletion canceled.');
+        confirmationModal.style.display = 'none';
+        location.reload()
+    });
+   
+}
+
+
+
+</script>
+
+
+
+<%- include('./layouts/footer') %>
+
+
+
+
+
+

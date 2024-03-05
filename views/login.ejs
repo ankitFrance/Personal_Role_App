@@ -1,0 +1,82 @@
+<%- include('./layouts/header') %>
+
+
+
+
+<div class="container">
+  <div class="row">
+    
+    <div>
+     
+    <form action="/auth/Login" method="post" class="login-form">
+
+      <div>
+        <h1 style="color: #c6171b;" class="loginHeading"> LOGIN</h1>
+        <hr class="colored-hr">
+      </div>
+
+      <% if (locals.errors && locals.errors.length > 0) { %>
+        <div class="alert alert-danger">
+    
+            <% locals.errors.forEach(function(error) { %>
+              <span><%= error %></span>
+            <% }); %>
+     
+        </div>
+      <% } %>
+      
+      <% if (locals.success && locals.success.length > 0) { %>
+        <div class="alert alert-success">
+        
+            <% locals.success.forEach(function(success) { %>
+              <span><%= success %></span>
+            <% }); %>
+       
+        </div>
+      <% } %>
+    
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email_id" name="email_field" aria-describedby="emailHelp">
+      
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password_id1" name="password_field1">
+    </div>
+
+    
+    
+    <button type="submit" class="btn btn-primary custom-btn">LOGIN</button>
+    <p class="spanText"> Don't have an account ? <span> <a href="/auth/Register"> Register </a>  </span></p>
+    <p class="spanText"> Forgot Password ? <span> <a href="/auth/Forgot"> Forgot password </a>  </span></p>
+
+    <div style="display: flex; align-items: center; text-align: center; margin: 10px 0;">
+      <hr style="flex: 1; border: none; height: 3px; background-color: #000000;">
+      <span style="padding: 0 10px; color: #888;">Or</span>
+      <hr style="flex: 1; border: none; height: 3px; background-color: #000000;">
+    </div>
+
+    <a href="orcid" class="icon-link">
+      <img src="/ORCIDiD.png" class="">
+       Connect your ORCID iD
+      </a>
+
+      <a href="google" class="icon-link">
+        <img src="/gmail.png" class="">
+         Login With Gmail
+        </a>
+     </form>
+   </form>
+
+   
+
+ 
+
+    </div>
+  </div>
+</div>
+
+<%- include('./layouts/footer') %>

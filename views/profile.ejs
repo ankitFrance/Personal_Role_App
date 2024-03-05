@@ -1,0 +1,84 @@
+<%- include('./layouts/header') %>
+
+
+<% if (locals.errors && locals.errors.length > 0) { %>
+    <div class="alert alert-danger">
+  
+        <% locals.errors.forEach(function(error) { %>
+          <span><%= error %></span>
+        <% }); %>
+  
+    </div>
+  <% } %>
+  
+  <% if (locals.success && locals.success.length > 0) { %>
+    <div class="alert alert-success">
+    
+        <% locals.success.forEach(function(success) { %>
+          <span><%= success %></span>
+        <% }); %>
+   
+    </div>
+  <% } %>
+  
+<!----------------------------------------------------------------------------------------->
+<% if (GoogleUser) { %>
+    <h2>Welcome, <%= GoogleUser.googleUsername %></h2>
+    <% } else if (orcidUser) { %>
+        <h2>Welcome, <%= orcidUser.orcidID %></h2>
+        <p>Employment Department: <%= orcidUser.orcidEmploymentDepartmentName %></p>
+        <p>Employment role title : <%= orcidUser.orcidEmploymentRoleTitle %></p>
+        <p>Education role title  <%= orcidUser.orcidEducationRoleTitle %></p>
+       
+  
+  <% } else { %>
+    <h2>Welcome, <%= userData.email %></h2>
+  <% } %>
+<!----------------------------------------------------------------------------------------->
+
+<div class="container cards">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="/orange.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="/orange.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="/orange.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    </div>
+</div>
+<!---------------------------------------------------->
+
+<!---------------------------------------------------->
+
+<%- include('./layouts/footer') %>

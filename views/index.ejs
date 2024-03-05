@@ -1,0 +1,26 @@
+<%- include('./layouts/header') %>
+<% if (locals.errors && locals.errors.length > 0) { %>
+    <div class="alert alert-danger">
+      <ul>
+        <% locals.errors.forEach(function(error) { %>
+          <li><%= error %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  
+  <% if (locals.success && locals.success.length > 0) { %>
+    <div class="alert alert-success">
+      <ul>
+        <% locals.success.forEach(function(success) { %>
+          <li><%= success %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+
+  
+<h1>HOME PAGE</h1>
+
+<%- include('./layouts/footer') %>

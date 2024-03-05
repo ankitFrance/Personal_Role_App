@@ -1,0 +1,233 @@
+
+
+
+
+
+
+
+<%- include('./layouts/header') %>
+<!-------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------->
+<% if (locals.errors && locals.errors.length > 0) { %>
+  <div class="alert alert-danger">
+
+      <% locals.errors.forEach(function(error) { %>
+        <span><%= error %></span>
+      <% }); %>
+
+  </div>
+<% } %>
+
+<% if (locals.success && locals.success.length > 0) { %>
+  <div class="alert alert-success">
+  
+      <% locals.success.forEach(function(success) { %>
+        <span><%= success %></span>
+      <% }); %>
+ 
+  </div>
+<% } %>
+
+<!-------------------------------------------------------------------------------------->
+
+<div class="container">
+  <div class="row">
+    
+<h1>REGISTERED USERS</h1> 
+<table class="table table-dark customTable ">
+    <thead>
+      <tr>
+      
+        <th scope="col">User ID</th>
+        <th scope="col">E-mail</th>
+       
+       
+        <th scope="col">google username</th>
+        <th scope="col">google ID</th>
+        <th scope="col">Orcid Id </th>
+        <th scope="col">Orcid Name</th>
+        <th scope="col">Last Login</th>
+        <th scope="col">Actions</th> 
+        <th scope="col">Role</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <% Allusers.forEach(element => { %>
+       <tr>
+      
+        <td><%= element._id %></td>
+        <td><%= element.email_field%></td>   
+       
+       
+        <td><%= element.googleUsername%></td>  
+        <td><%= element.googleID%></td>  
+        <td><%= element.orcidID%></td>  
+        <td><%= element.orcidName%></td>  
+        <td><%= element.lastLogin%></td>  
+        
+       
+       
+
+        
+
+        
+        <td>
+
+        
+
+          <!-- See Profile button -->
+          <button type="button" class="btn btn-warning" onclick="window.location.href='/admin/Allusers/<%= element._id %>'" >View Profile</button>
+
+         
+          
+          <!-- Delete button -->
+          <button type="button" class="btn btn-danger" onclick="deleteUser('<%= element._id %>')">Delete</button>
+
+        
+
+         
+        
+        </td>
+        
+        <td>
+
+          <span><%= element.roleGiven %></span>
+          <hr style="border-top: 4px solid yellow; font-weight: bold;">
+
+          <form action="/admin/updateRole" method="post">
+          <input type="hidden" name="userId" value="<%= element._id %>">
+          <div class="dropdownContainer" >
+                  <!-- Dropdown will be appended here -->
+                  
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+         
+        </td>
+       
+
+       </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+  <!---------------------------------------------------------------------------------->
+ 
+
+
+  <script>
+    const storedData = localStorage.getItem('roles');
+    const parsedData = JSON.parse(storedData);
+  
+    // Get all elements with the class 'dropdownContainer'
+    const dropdownContainers = document.querySelectorAll('.dropdownContainer');
+  
+    // Iterate over each container
+    dropdownContainers.forEach(container => {
+      
+  
+      const label = document.createElement('label');
+      label.textContent = 'Change Role ? ';
+  
+      container.appendChild(label);
+  
+      const selectDropdown = document.createElement('select');
+      selectDropdown.name = 'roleUpdate';
+
+        // Add default option '-- Select a value --'
+    const defaultOption = document.createElement('option');
+    defaultOption.text = '-- Select a value --';
+    defaultOption.disabled = true;
+    defaultOption.selected = true; // Optional: Pre-select this option
+    selectDropdown.add(defaultOption);
+  
+      parsedData.forEach(value => {
+        const option = document.createElement('option');
+        option.text = value.roletitle;;
+        selectDropdown.add(option);
+      });
+  
+      container.appendChild(selectDropdown);
+    });
+  </script>
+
+
+
+
+
+
+
+<!-------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

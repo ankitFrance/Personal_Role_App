@@ -1,0 +1,26 @@
+<%- include('./layouts/header') %>
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+      <tr style="border: 1px solid #ddd; background-color: #f2f2f2;">
+        <th style="padding: 8px; text-align: left;">ID</th>
+        <th style="padding: 8px; text-align: left;">Email</th>
+       
+        <th style="padding: 8px; text-align: left;">Verified</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border: 1px solid #ddd;">
+        <td style="padding: 8px;"><%= Person._id %></td>
+        <td style="padding: 8px;"><%= Person.email_field %></td>
+      
+        <td style="padding: 8px;"><%= Person.is_verified %></td>
+      </tr>
+      <!-- Add more rows if there are multiple persons -->
+    </tbody>
+  </table>
+  
+  
+
+
+

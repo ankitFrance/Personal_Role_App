@@ -1,0 +1,39 @@
+
+<%- include('./layouts/header') %>
+
+
+<% if (locals.errors && locals.errors.length > 0) { %>
+  <div class="alert alert-danger">
+
+      <% locals.errors.forEach(function(error) { %>
+        <span><%= error %></span>
+      <% }); %>
+
+  </div>
+<% } %>
+
+<% if (locals.success && locals.success.length > 0) { %>
+  <div class="alert alert-success">
+  
+      <% locals.success.forEach(function(success) { %>
+        <span><%= success %></span>
+      <% }); %>
+ 
+  </div>
+<% } %>
+
+
+<form action="/auth/reset" method="post" class="login-form">
+
+    <input type="hidden" name="token" value="<%= token %>">
+    <input type="hidden" name="email" value="<%= email %>">
+
+      <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password_reset" name="password_reset">
+          <input type="password" class="form-control" id="password_reset" name="password_reset2">
+  
+         <button type="submit" class="btn btn-primary custom-btn">Submit</button>
+      </div>
+      
+</form>

@@ -1,0 +1,93 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ESPADON</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!------------------------------------------------------------------------------------------> 
+        
+        <% if (!isLoggedIn && !GoogleUser&& !orcidUser) { %>
+
+          
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        
+       
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/auth/Register">Register</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/auth/Login" >Login</a>
+        </li>
+
+
+        <% } else if (GoogleUser) { %>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/Profile">Profile</a>
+        </li>
+        
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/auth/Logout">Logout</a>
+        </li>
+
+        <% } else if (orcidUser) { %>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/Profile">Profile</a>
+        </li>
+        
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/auth/Logout">Logout</a>
+        </li>
+
+
+        <% } else if (isLoggedIn  && !isAuthWithAdminstrator) { %>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/Profile">Profile</a>
+        </li>
+        
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/auth/Logout">Logout</a>
+        </li>
+       
+      
+
+        <% } else if (isLoggedIn && isAuthWithAdminstrator && !GoogleUser ) { %>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/AllUsers">Manage users</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/auth/Logout">Logout</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/AddRole">Create Role &nbsp;<i class="fas fa-plus"></i></a>
+          </li>
+
+          <% } %>
+
+         
+          
+       
+            
+
+    
+        <!------------------------------------------------------------------------------------------> 
+      
+        
+        
+      </ul>
+     
+    </div>
+  </div>
+</nav>

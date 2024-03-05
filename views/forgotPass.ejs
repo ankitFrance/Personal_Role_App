@@ -1,0 +1,33 @@
+<%- include('./layouts/header') %>
+
+<h1>Enter your E-Mail</h1>
+
+
+<% if (locals.errors && locals.errors.length > 0) { %>
+    <div class="alert alert-danger">
+
+        <% locals.errors.forEach(function(error) { %>
+          <span><%= error %></span>
+        <% }); %>
+ 
+    </div>
+  <% } %>
+  
+  <% if (locals.success && locals.success.length > 0) { %>
+    <div class="alert alert-success">
+    
+        <% locals.success.forEach(function(success) { %>
+          <span><%= success %></span>
+        <% }); %>
+   
+    </div>
+  <% } %>
+
+<form action="/auth/Forgot" method="post" class="login-form">
+<div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email_id" name="email_forgot_field" aria-describedby="emailHelp">
+    <button type="submit" class="btn btn-primary custom-btn">Submit</button>
+</div>
+</form>
+
